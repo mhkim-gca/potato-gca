@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/*
+ * 감자마켓 디자인 시스템
+ * 컨셉: 프리미엄 구제샵 / 70~80년대 미국 빈티지 (Americana)
+ * 색: 따뜻한 종이결, 러스트/머스타드/올리브, 진한 에스프레소 잉크
+ */
+@theme {
+  /* 색상 토큰 → bg-paper, text-ink, border-line 같은 유틸리티가 자동 생성됩니다 */
+  --color-paper: #f1e6cf;
+  --color-paper-2: #e7d8b8;
+  --color-card: #faf3e2;
+  --color-ink: #2a2017;
+  --color-ink-soft: #6d5d45;
+  --color-rust: #b0512f;
+  --color-rust-dark: #8a3c20;
+  --color-gold: #cf9a3c;
+  --color-olive: #5f6b39;
+  --color-cream: #fbf6ea;
+  --color-line: #c9b491;
+
+  /* 글꼴 토큰 → font-display, font-heading, font-body, font-accent */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-heading: "Gowun Batang", "Playfair Display", serif;
+  --font-body: "Gothic A1", system-ui, sans-serif;
+  --font-accent: "Oswald", "Gothic A1", sans-serif;
+}
+
+:root {
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  /* 종이 질감: 아주 옅은 노이즈 + 따뜻한 비네팅 */
+  background-image:
+    radial-gradient(
+      120% 120% at 50% 0%,
+      rgba(255, 250, 235, 0.6) 0%,
+      transparent 55%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+
+/* 제목 기본 글꼴 */
+h1, h2, h3 {
+  font-family: var(--font-heading);
+}
+
+/* 라벨/버튼용 빈티지 대문자 스타일 유틸리티 */
+.eyebrow {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+}
+
+/* 살짝 빛바랜 이중 테두리(빈티지 라벨 느낌) */
+.vintage-frame {
+  box-shadow:
+    0 0 0 1px var(--color-line),
+    0 0 0 5px var(--color-cream),
+    0 0 0 6px var(--color-line),
+    0 18px 40px -24px rgba(42, 32, 23, 0.55);
+}
+
+/* 입력 필드 공통 */
+.field {
+  width: 100%;
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-line);
+  border-radius: 0.25rem;
+  padding: 0.7rem 0.9rem;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field:focus {
+  border-color: var(--color-rust);
+  box-shadow: 0 0 0 3px rgba(176, 81, 47, 0.18);
+}
+.field::placeholder {
+  color: color-mix(in srgb, var(--color-ink-soft) 70%, transparent);
+}
+
+/* 기본 버튼(러스트 솔리드) */
+.btn-primary {
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  background-color: var(--color-rust);
+  color: var(--color-cream);
+  padding: 0.7rem 1.1rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.15s, transform 0.05s;
+}
+.btn-primary:hover {
+  background-color: var(--color-rust-dark);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
