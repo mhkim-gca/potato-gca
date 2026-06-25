@@ -42,8 +42,19 @@ export default async function HomePage() {
               {nickname ?? "감자"}님, 다시 오셨군요
             </p>
             <p className="mt-2 text-sm text-ink-soft">
-              로그인된 상태예요. 다음 단계에서 물건 등록 기능을 만들어 볼게요.
+              로그인된 상태예요. 이제 물건을 사고팔 수 있어요.
             </p>
+            <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
+              <Link href="/products" className="btn-primary">
+                마켓 둘러보기
+              </Link>
+              <Link
+                href="/products/new"
+                className="eyebrow rounded-sm border border-line px-5 py-3 text-xs text-ink transition-colors hover:border-rust hover:text-rust"
+              >
+                판매 글쓰기
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -55,6 +66,12 @@ export default async function HomePage() {
               className="eyebrow w-full rounded-sm border border-line px-5 py-3 text-xs text-ink transition-colors hover:border-rust hover:text-rust sm:w-auto"
             >
               로그인
+            </Link>
+            <Link
+              href="/products"
+              className="eyebrow w-full px-5 py-3 text-xs text-ink-soft underline-offset-4 transition-colors hover:text-rust hover:underline sm:w-auto"
+            >
+              마켓 구경하기
             </Link>
           </div>
         )}

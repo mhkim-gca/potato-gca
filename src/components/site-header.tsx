@@ -35,6 +35,12 @@ export default async function SiteHeader() {
         </Link>
 
         <nav className="flex items-center gap-3 text-sm">
+          <Link
+            href="/products"
+            className="eyebrow text-[11px] text-ink-soft transition-colors hover:text-rust"
+          >
+            마켓
+          </Link>
           {user ? (
             <>
               <span className="hidden text-ink-soft sm:inline">
