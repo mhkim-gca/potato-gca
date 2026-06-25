@@ -2,7 +2,7 @@
 
 /*
  * 감자마켓 디자인 시스템
- * 컨셉: 프리미엄 구제샵 / 70~80년대 미국 빈티지 (Americana)
+ * 컨셉: 프리미엄 구제샵 및 중고거래 
  * 색: 따뜻한 종이결, 러스트/머스타드/올리브, 진한 에스프레소 잉크
  */
 @theme {
@@ -108,4 +108,51 @@ h1, h2, h3 {
 .btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* 상단 레트로 스트라이프 바 */
+.retro-topbar {
+  height: 5px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-rust) 0px,
+    var(--color-rust) 10px,
+    var(--color-paper-2) 10px,
+    var(--color-paper-2) 20px
+  );
+}
+
+/* 히어로 선버스트 배경 */
+.retro-sunburst-bg {
+  background-image: repeating-conic-gradient(
+    from 0deg at 50% 0%,
+    rgba(176, 81, 47, 0.055) 0deg 9deg,
+    transparent 9deg 18deg
+  );
+}
+
+/* 장식 가로선 (가운데 텍스트 포함) */
+.retro-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-rust);
+  font-family: var(--font-accent);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.retro-divider::before,
+.retro-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-line);
+}
+
+/* 하단 광고 스트립 */
+.retro-ad-strip {
+  background-color: var(--color-rust);
+  color: var(--color-cream);
 }

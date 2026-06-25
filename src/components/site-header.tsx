@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/app/auth/actions";
+import PotatoIcon from "@/components/potato-icon";
 
 /**
  * 모든 페이지 상단에 보이는 헤더.
@@ -25,7 +26,8 @@ export default async function SiteHeader() {
   return (
     <header className="border-b border-line/80 bg-paper/70 backdrop-blur-sm">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
-        <Link href="/" className="group flex items-baseline gap-2">
+        <Link href="/" className="group flex items-center gap-2">
+          <PotatoIcon size={26} />
           <span className="font-heading text-2xl font-bold tracking-tight text-ink">
             감자마켓
           </span>
