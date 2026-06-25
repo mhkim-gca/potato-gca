@@ -44,6 +44,7 @@ export default async function EditProductPage({
         price: product.price,
         category: product.category,
         status: product.status,
+        imageUrl: product.image_url,
       }}
     />
   );

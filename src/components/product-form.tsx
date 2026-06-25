@@ -1,12 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import {
-  CATEGORIES,
-  STATUS_OPTIONS,
-  type ProductStatus,
-} from "@/lib/products";
+import { CATEGORIES, STATUS_OPTIONS, type ProductStatus } from "@/lib/products";
 import type { ProductFormState } from "@/app/products/actions";
 
 type FormAction = (
@@ -20,14 +17,9 @@ export type ProductFormDefaults = {
   price?: number;
   category?: string | null;
   status?: ProductStatus;
+  imageUrl?: string | null;
 };
 
-/**
- * 판매글 작성/수정 공용 폼.
- * - mode "new": 새 글 작성 (상태는 자동으로 '판매중')
- * - mode "edit": 기존 글 수정 (판매 상태도 바꿀 수 있음)
- * useActionState 로 서버 동작의 결과(에러 메시지)를 화면에 보여줍니다.
- */
 export default function ProductForm({
   action,
   mode,
@@ -40,10 +32,27 @@ export default function ProductForm({
   cancelHref: string;
 }) {
   const isEdit = mode === "edit";
-  const [state, formAction, isPending] = useActionState<
-    ProductFormState,
-    FormData
-  >(action, {});
+  const [state, formAction, isPending] = useActionState<ProductFormState, FormData>(
+    action,
+    {},
+  );
+
+  // 새로 선택한 사진의 미리보기 URL
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) {
+      setPreviewUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    setPreviewUrl(url);
+  }
+
+  // 수정 모드에서 보여줄 이미지: 새로 선택한 것 > 기존 이미지
+  const displayImage = previewUrl ?? (isEdit ? (defaults?.imageUrl ?? null) : null);
 
   return (
     <div className="mx-auto flex max-w-xl flex-col px-5 py-12 sm:py-16">
@@ -65,6 +74,47 @@ export default function ProductForm({
         action={formAction}
         className="mt-8 flex flex-col gap-4 rounded-md bg-card p-7 vintage-frame"
       >
+        {/* 사진 */}
+        <div className="flex flex-col gap-1.5">
+          <span className="eyebrow text-[10px] text-ink-soft">
+            사진 (선택, 최대 5MB)
+          </span>
+
+          {/* 미리보기 */}
+          {displayImage && (
+            <div className="relative h-48 w-full overflow-hidden rounded-sm border border-line">
+              <Image
+                src={displayImage}
+                alt="상품 사진 미리보기"
+                fill
+                className="object-cover"
+                unoptimized={!!previewUrl} // blob URL 은 최적화 건너뜀
+              />
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="eyebrow self-start rounded-sm border border-line px-4 py-2 text-[10px] text-ink-soft transition-colors hover:border-rust hover:text-rust"
+          >
+            {displayImage ? "사진 교체" : "사진 선택"}
+          </button>
+          <input
+            ref={fileInputRef}
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          {isEdit && defaults?.imageUrl && !previewUrl && (
+            <p className="text-[11px] text-ink-soft">
+              새 사진을 선택하면 기존 사진이 교체돼요.
+            </p>
+          )}
+        </div>
+
         <label className="flex flex-col gap-1.5">
           <span className="eyebrow text-[10px] text-ink-soft">제목</span>
           <input
